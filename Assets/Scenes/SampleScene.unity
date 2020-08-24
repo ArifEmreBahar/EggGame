@@ -156,7 +156,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: d503a0c6079bf5a4dbc6dee2bcac7a9b, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -230,7 +230,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 250199184}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: d503a0c6079bf5a4dbc6dee2bcac7a9b, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -276,7 +276,7 @@ EdgeCollider2D:
   m_GameObject: {fileID: 389004568}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: d503a0c6079bf5a4dbc6dee2bcac7a9b, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -284,12 +284,20 @@ EdgeCollider2D:
   m_EdgeRadius: 0.1
   m_Points:
   - {x: 1.053376, y: -0.20782506}
+  - {x: 1.0128343, y: -0.20048499}
+  - {x: 0.9718335, y: -0.17980099}
   - {x: 0.9266479, y: -0.126248}
   - {x: 0.95410585, y: 0.03849888}
   - {x: 1.0626467, y: 0.18782938}
   - {x: 1.1654315, y: 0.051843286}
   - {x: 1.1617122, y: 0.03296709}
   - {x: 1.2054504, y: -0.11568737}
+  - {x: 1.1513093, y: -0.1815232}
+  - {x: 1.1161733, y: -0.20189607}
+  - {x: 1.0766098, y: -0.20650947}
+  - {x: 1.0766098, y: -0.20650947}
+  - {x: 1.0766098, y: -0.20650947}
+  - {x: 1.0766098, y: -0.20650947}
   - {x: 1.0766098, y: -0.20650947}
   - {x: 1.0766098, y: -0.20650947}
 --- !u!50 &389004570
@@ -306,8 +314,8 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_AngularDrag: 0
+  m_GravityScale: 5
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -370,7 +378,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 389004568}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.64, y: -1.564, z: 0}
+  m_LocalPosition: {x: -0.64, y: -1.575, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -388,7 +396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdc63e83a0a52a34cb38b65cb87598f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 30
+  speed: 5
   rotati: 1
 --- !u!1 &519420028
 GameObject:
