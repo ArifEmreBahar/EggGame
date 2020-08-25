@@ -22,9 +22,11 @@ public class NewBehaviourScript : MonoBehaviour
     {
         float moveInput = Input.GetAxis("Horizontal");
 
-        //rb.velocity = new Vector2(moveInput * speed, rb.velocity.y) ;
+        rb.velocity = new Vector2(moveInput * speed/2f, rb.velocity.y) ;
         transform.Rotate(Vector3.back, moveInput*speed);
-
+        //rb.AddTorque(moveInput * speed);
+        /*if (moveInput > 0) { 
+        rb.AddForce(transform.right * rotati); }*/
 
     }
 }
