@@ -6,42 +6,33 @@ public class Map : MonoBehaviour
 {
 
     private Transform[] Layers;
-    public GameObject Layer;
+    public GameObject backGround;
     private float[] Delays;
-    public float backGroundSize;
     public Transform player;
-
-    //float textureUniteSizex;
+    private float[] startPos;
 
     void Start()
     {
         Layers = new Transform[transform.childCount];
         Delays = new float[transform.childCount];
+        startPos = new float[transform.childCount];
 
         for (int i = 0; i < transform.childCount; i++) {
-            Layers[i] = Layer.transform.GetChild(i);
+            Layers[i] = backGround.transform.GetChild(i);
             Delays[i] = (1f / transform.childCount)*i;
+            startPos[i]= transform.position.x;
         }
-        
-        //Layer1.transform.position = player.transform.position;
-        //PontoOriginal = transform.position.x;
-        //Texture2D texture = Layer1.GetComponent<SpriteRenderer>().sprite.texture;
-        //textureUniteSizex = texture.width / Layer1.GetComponent<SpriteRenderer>().sprite.pixelsPerUnit;
     }
 
     void FixedUpdate()
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            Layers[i].transform.position= new Vector2(player.transform.position.x * Delays[i] , Layers[i].transform.position.y);
-            //if(lastPosition.x > Layers[i].transform.position.x)
+            Layers[i].transform.position= new Vector2(startPos[i]+player.transform.position.x * Delays[i] , Layers[i].transform.position.y);
+            if (player.transform.position.x > Layers[i].transform.position.x + Layers[i].GetComponent<SpriteRenderer>().bounds.size.x)
+            {                startPos[i] += Layers[i].GetComponent<SpriteRenderer>().bounds.size.x;
+            } else if (player.transform.position.x < Layers[i].transform.position.x - Layers[i].GetComponent<SpriteRenderer>().bounds.size.x)
+            {                startPos[i] -= Layers[i].GetComponent<SpriteRenderer>().bounds.size.x; }
         }
-
-        /*
-        if (lastPosition.x > (startPosition1 + (Layer1.GetComponent<SpriteRenderer>().bounds.size.x)))
-        {
-            Layer1.transform.Translate(Layer1.GetComponent<SpriteRenderer>().bounds.size.x, 0, 0);
-            startPosition1 = lastPosition.x;
-        }*/
     }
 }
