@@ -6,7 +6,6 @@ public class Map : MonoBehaviour
 {
 
     private Transform[] Layers;
-    public GameObject backGround;
     private float[] Delays;
     public Transform player;
     private float[] startPos;
@@ -18,7 +17,7 @@ public class Map : MonoBehaviour
         startPos = new float[transform.childCount];
 
         for (int i = 0; i < transform.childCount; i++) {
-            Layers[i] = backGround.transform.GetChild(i);
+            Layers[i] = transform.GetChild(i);
             Delays[i] = (1f / transform.childCount)*i;
             startPos[i]= transform.position.x;
         }
