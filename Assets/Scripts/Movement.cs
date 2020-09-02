@@ -13,10 +13,11 @@ public class Movement : MonoBehaviour
 
     private float spacePressPoint;
     private Rigidbody2D Player;
-    private bool isJumped;
+    private Animator anim;
 
     void Start()
     {
+        anim = GetComponent<Animator>();
         Player = GetComponent<Rigidbody2D>();
     }
 
@@ -42,12 +43,27 @@ public class Movement : MonoBehaviour
         {
             JumpPlayer(spacePressPoint);
         }
+
+        /*
+        if (isJumped())
+        {
+            anim.SetBool("isJumping", true);
+        }
+        else { anim.SetBool("isJumping", false); }*/
     }
 
     private void MovePlayer()
     {
-        Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
-        Player.AddForce(moveInput * sideSpeed * Time.deltaTime);
+        if (!isWater())
+        {
+            
+            Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
+            Player.AddForce(moveInput * sideSpeed * Time.deltaTime);
+        }
+        else {
+            Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
+            Player.AddTorque(-moveInput.x * sideSpeed * Time.deltaTime);
+        }
     }
 
     private bool isMaximumSpeed(float maximumSpeed)
@@ -59,19 +75,19 @@ public class Movement : MonoBehaviour
         else return false;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private bool isJumped()
     {
-        if (collision.gameObject.tag == "Ground")
-        {
-            isJumped = true;
-        }
-        else { isJumped = false; }
-    } 
+        return transform.Find("CollisionDetect").GetComponent<CollisionDetect>().isJumped;
+    }
+    private bool isWater()
+    {
+        return transform.Find("CollisionDetect").GetComponent<CollisionDetect>().isWater;
+    }
 
     private void JumpPlayer(float spacePressPoint)
     {
        
-        if (isJumped) { 
+        if (isJumped()) { 
             if (spacePressPoint < 90f || spacePressPoint > 270f)
             {
                 Player.velocity = Player.GetRelativeVector(Vector2.up) * minJumpStrength;
@@ -80,6 +96,7 @@ public class Movement : MonoBehaviour
             else
             {
                 Player.velocity = Player.GetRelativeVector(Vector2.down) * backJumpSpeed;
+                minJumpStrength = 5f;
             }
         }
     }
