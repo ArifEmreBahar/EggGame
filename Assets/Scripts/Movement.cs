@@ -54,13 +54,12 @@ public class Movement : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (!isWater())
-        {
-            
+        if (isGruond())
+        {  
             Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
             Player.AddForce(moveInput * sideSpeed * Time.deltaTime);
         }
-        else {
+        if(isWater()) {
             Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
             Player.AddTorque(-moveInput.x * sideSpeed * Time.deltaTime);
         }
@@ -75,9 +74,9 @@ public class Movement : MonoBehaviour
         else return false;
     }
 
-    private bool isJumped()
+    private bool isGruond()
     {
-        return transform.Find("CollisionDetect").GetComponent<CollisionDetect>().isJumped;
+        return transform.Find("CollisionDetect").GetComponent<CollisionDetect>().isGruond;
     }
     private bool isWater()
     {
@@ -87,7 +86,7 @@ public class Movement : MonoBehaviour
     private void JumpPlayer(float spacePressPoint)
     {
        
-        if (isJumped()) { 
+        if (isGruond()) { 
             if (spacePressPoint < 90f || spacePressPoint > 270f)
             {
                 Player.velocity = Player.GetRelativeVector(Vector2.up) * minJumpStrength;

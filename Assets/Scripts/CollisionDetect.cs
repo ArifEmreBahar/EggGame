@@ -5,25 +5,19 @@ using UnityEngine;
 public class CollisionDetect : MonoBehaviour
 {
 
-    public bool isJumped;
+    public bool isGruond;
     public bool isWater;
     // Start is called before the first frame update
-    void Start()
-    {
+ 
 
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private void OnTriggerStay2D(Collider2D colli)
     {
         if (colli.CompareTag("Ground"))
         {
-            isJumped = true;
+
+            isGruond = true;
         }
         if (colli.CompareTag("Water"))
         {
@@ -32,7 +26,7 @@ public class CollisionDetect : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D colli)
     {
-        isJumped = false;
+        isGruond = false;
         isWater = false;
     }
 
