@@ -6,26 +6,27 @@ public class FallingRoom : MonoBehaviour
 {
     public GameObject isActiveVirtualCam;
     public GameObject Player;
-    public float waitTime;
-    public float slowMoTime;
-    public TimeManager timeManager;
+    public float room2StuckTime;
+    public GameObject intro;
     private bool done= true;
-    //public GameObject mainCamera;
+    private bool done2 = false;
+    public float slowDownFactor = 0.05f;
+    public float slowMoDelayTime = 10f;
+    public GameObject destroyRoom;
 
-    private void Update()
+ 
+        //public GameObject mainCamera;
+
+        private void Update()
     {
-        if (isActiveVirtualCam.activeSelf && Player.GetComponent<Rigidbody2D>().velocity.magnitude < 3f)
-        {
-            StartCoroutine(WaitTime(waitTime));
-            //StartCoroutine(SlowMoTime(slowMoTime));
-            //Player.GetComponent<Rigidbody2D>().gravityScale = 0.2f; 
-        }
         if (isActiveVirtualCam.activeSelf && done)
         {
-            //StartCoroutine(WaitTime(waitTime));
-            StartCoroutine(SlowMoTime(slowMoTime));
-            done = false;
-            //Player.GetComponent<Rigidbody2D>().gravityScale = 0.2f; 
+            StartCoroutine(WaitTime(room2StuckTime));
+            StartCoroutine(SlowMoTime(slowMoDelayTime));
+            done = false; 
+        }
+        if (done2 == true) {
+            Player.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, -10));
         }
     }
 
@@ -45,18 +46,33 @@ public class FallingRoom : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Player.GetComponent<Rigidbody2D>().gravityScale = 2f;
+            destroyRoom.SetActive(false);
         }
     }
 
      IEnumerator WaitTime(float time)
      {
        yield return new WaitForSeconds(time);
-       Player.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, -3));
+       Player.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, -250));
      }
 
     IEnumerator SlowMoTime(float time)
     {
         yield return new WaitForSeconds(time);
-        timeManager.doSlowMo();
+        doSlowMo();
+        yield return new WaitForSecondsRealtime(1f);
+        intro.SetActive(true);
+        yield return new WaitForSecondsRealtime(3f);
+        fixSlowMo();
+        done2 = true;
+    }
+    public void doSlowMo()
+    {
+        Time.timeScale = slowDownFactor;
+        //Time.fixedDeltaTime = Time.timeScale * .02f;
+        //StartCoroutine(slowMoTime());
+    }
+    private void fixSlowMo() {
+        Time.timeScale = 1f;
     }
 }
