@@ -82,11 +82,15 @@ public class Movement : MonoBehaviour
     {
         return transform.Find("CollisionDetect").GetComponent<CollisionDetect>().isWater;
     }
+    private bool isNoJump()
+    {
+        return transform.Find("CollisionDetect").GetComponent<CollisionDetect>().isNoJump;
+    }
 
     private void JumpPlayer(float spacePressPoint)
     {
        
-        if (isGruond()) { 
+        if (isGruond() && !isNoJump()) { 
             if (spacePressPoint < 90f || spacePressPoint > 270f)
             {
                 Player.velocity = Player.GetRelativeVector(Vector2.up) * minJumpStrength;
