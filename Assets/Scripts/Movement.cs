@@ -5,13 +5,20 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     public float sideSpeed = 500f;
-    public float backJumpSpeed = 8f;
     public float maxSpeed = 2f;
-    private float minJumpStrength = 5f;
-    public float maxJumpStrength = 10f;
-    public float jumpStrengthmultiplier = 5f;
+    public float groundJumpStrength = 1.5f;
+    public float groundBackJumpStrength = 7f;
+    public float waterJumpStrength = 1f;
+    public float waterBackJumpStrength = 4f;
+    public float jumpStrength = 3f;
+    public float maxJumpStrength = 6f;
+    public float jumpStrengthMultiplier = 3f;
 
-    private float spacePressPoint;
+    /*private float dashTime;
+    public float startDashTime;
+    public float dashSpeed;*/
+
+    private string spacePressPoint;
     private Rigidbody2D Player;
     private Animator anim;
 
@@ -19,6 +26,8 @@ public class Movement : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         Player = GetComponent<Rigidbody2D>();
+
+        //dashTime = startDashTime;
     }
 
     void FixedUpdate()
@@ -29,21 +38,25 @@ public class Movement : MonoBehaviour
             MovePlayer();
         }
         
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.K))
         {
-            if (minJumpStrength < maxJumpStrength)
+            if (jumpStrength < maxJumpStrength)
             {
-                minJumpStrength += (Time.deltaTime * jumpStrengthmultiplier);
+                jumpStrength += (Time.deltaTime * jumpStrengthMultiplier);
             }
-            if (Input.GetKeyDown(KeyCode.Space)) {
+            /*if (Input.GetKeyDown(KeyCode.Space)) {
                 spacePressPoint = Player.transform.eulerAngles.z;
-            }
+            }*/
         }
-        else if (Input.GetKeyUp(KeyCode.Space))
+        else if (Input.GetKeyUp(KeyCode.K))
         {
-            JumpPlayer(spacePressPoint);
+            JumpPlayer("up");
+            //dashPlayer();
         }
-
+        if (Input.GetKeyUp(KeyCode.L))
+        {
+            JumpPlayer("down");
+        }
         /*
         if (isJumped())
         {
@@ -87,20 +100,47 @@ public class Movement : MonoBehaviour
         return transform.Find("CollisionDetect").GetComponent<CollisionDetect>().isNoJump;
     }
 
-    private void JumpPlayer(float spacePressPoint)
+    private void JumpPlayer(string spacePressPoint)
     {
-       
-        if (isGruond() && !isNoJump()) { 
-            if (spacePressPoint < 90f || spacePressPoint > 270f)
-            {
-                Player.velocity = Player.GetRelativeVector(Vector2.up) * minJumpStrength;
-                minJumpStrength = 5f;
+
+        if (isGruond() && !isNoJump())
+        {
+            if (spacePressPoint == "up")
+            { 
+                Player.velocity = Player.GetRelativeVector(Vector2.up) * jumpStrength * groundJumpStrength;
+                jumpStrength = 3f;
             }
-            else
+            if (spacePressPoint == "down")
             {
-                Player.velocity = Player.GetRelativeVector(Vector2.down) * backJumpSpeed;
-                minJumpStrength = 5f;
+                Player.velocity = Player.GetRelativeVector(Vector2.down) * groundBackJumpStrength;
+                jumpStrength = 3f;
+            }
+        }
+        if (isWater() && !isNoJump())
+        {
+            if (spacePressPoint == "up")
+            {
+                Player.velocity = Player.GetRelativeVector(Vector2.up) * jumpStrength * waterJumpStrength;
+                jumpStrength = 3f;
+            }
+            if (spacePressPoint == "down")
+            {
+                Player.velocity = Player.GetRelativeVector(Vector2.down) * waterBackJumpStrength;
+                jumpStrength = 3f;
             }
         }
     }
+    
+    /*private void dashPlayer() {
+
+        if (dashTime <= 0)
+        {
+            dashTime = startDashTime;
+            Player.velocity = Vector2.zero;
+        }
+        else {
+            dashTime -= Time.deltaTime;
+            Player.velocity = Vector2.right * dashSpeed;
+        }
+    }*/
 }
